@@ -128,7 +128,9 @@ public class OaknBank extends Script {
             bankLogs();
             underAttack();
         }
-        return LogNormalDistribution.generateRandomX(x);
+        int tempName = LogNormalDistribution.generateRandomX(x);
+        log(tempName);
+        return tempName;
     }
 
     private void chopOaks() throws InterruptedException {
