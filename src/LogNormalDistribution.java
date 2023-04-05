@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class LogNormalDistribution {
+public class LogNormalDistribution { //Note that this class needs more work, will update soon
 
     private static Random random = new Random();
 
