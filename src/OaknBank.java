@@ -40,6 +40,7 @@ public class OaknBank extends Script {
     private int levelsGained;
 
     private int oakLogsCount;
+    LogNormalDistribution x = new LogNormalDistribution();
 
     public void onMessage(Message m) {
         if (m.getMessage().contains("You get some oak logs."))
@@ -127,7 +128,7 @@ public class OaknBank extends Script {
             bankLogs();
             underAttack();
         }
-        return random(500, 550);
+        return LogNormalDistribution.generateRandomX(x);
     }
 
     private void chopOaks() throws InterruptedException {
