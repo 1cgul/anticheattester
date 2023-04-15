@@ -40,7 +40,7 @@ public class OaknBank extends Script {
     private int levelsGained;
 
     private int oakLogsCount;
-    LogNormalDistribution x = new LogNormalDistribution();
+    LogNormalDistribution onLoopTimer = new LogNormalDistribution(400, 1500, Math.log(550), .2);
 
     public void onMessage(Message m) {
         if (m.getMessage().contains("You get some oak logs."))
@@ -128,7 +128,7 @@ public class OaknBank extends Script {
             bankLogs();
             underAttack();
         }
-        int tempName = LogNormalDistribution.generateRandomX(x);
+        int tempName = LogNormalDistribution.generateRandomX(onLoopTimer);
         log(tempName);
         return tempName;
     }
