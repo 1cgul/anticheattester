@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="OaknBankRE">
+  <artifact type="jar" name="OaknBankRE3">
     <output-path>$USER_HOME$/OSBot/Scripts</output-path>
-    <root id="archive" name="OaknBankRE.jar">
+    <root id="archive" name="OaknBankRE3.jar">
       <element id="module-output" name="OaknBank" />
     </root>
   </artifact>

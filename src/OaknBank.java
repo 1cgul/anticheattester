@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.osbot.rs07.api.map.Area;
 import org.osbot.rs07.api.map.constants.Banks;
@@ -13,7 +14,7 @@ import org.osbot.rs07.script.Script;
 import org.osbot.rs07.script.ScriptManifest;
 import org.osbot.rs07.utility.ConditionalSleep;
 
-@ScriptManifest(author = "? & reluct", info = "Chops and Banks Oak Logs at Draynor", logo = "", name = "OaknBankRE", version = 1.0D)
+@ScriptManifest(author = "? & reluct", info = "Chops and Banks Oak Logs at Draynor", logo = "", name = "DraynorOaks", version = 1.0D)
 public class OaknBank extends Script {
     LinkedList<MousePathPoint> mousePath = new LinkedList<>();
     private int mX, mY;
@@ -40,7 +41,7 @@ public class OaknBank extends Script {
     private int levelsGained;
 
     private int oakLogsCount;
-    LogNormalDistribution onLoopTimer = new LogNormalDistribution(400, 1500, Math.log(550), .2);
+    LogNormalDistribution onLoopTimer = new LogNormalDistribution(1000, 7000, 1500, .4);
 
     public void onMessage(Message m) {
         if (m.getMessage().contains("You get some oak logs."))
@@ -183,4 +184,14 @@ public class OaknBank extends Script {
     private boolean readyToCut() {
         return (!myPlayer().isAnimating() && !myPlayer().isUnderAttack() && this.oakArea.contains((Entity)myPlayer()));
     }
+    //this was just used for testing but im going to leave this here just in case i need to use this again
+    /*private int genRandX(int min, int max, double sigma, double mu){
+        double xValue;
+        do {
+            Random random = new Random();
+            double normalRandomValue = random.nextGaussian();
+            xValue = Math.exp(mu + sigma * normalRandomValue);
+        } while (xValue < min || xValue > max);
+        return (int) Math.round(xValue);
+    }*/
 }

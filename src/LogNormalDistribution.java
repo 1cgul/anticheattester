@@ -2,23 +2,22 @@ import java.util.Random;
 
 public class LogNormalDistribution { //Note that this class needs more work, will update soon
 
-    private static int minX;
-    private static int maxX;
-    private static double mu;
-    private static double sigma;
-    static Random random = new Random();
+    private int minX;
+    private int maxX;
+    private double mu;
+    private double sigma;
 
     public LogNormalDistribution(){
         minX = 180;
-        maxX = 1500;
+        maxX = 2000;
         mu = Math.log(275);
-        sigma = 0.425;
+        sigma = 0.6;
     }
 
     public LogNormalDistribution(int minX, int maxX, double mu, double sigma){
         this.minX = minX;
         this.maxX = maxX;
-        this.mu = mu;
+        this.mu = Math.log(mu);
         this.sigma = sigma;
     }
     public void setMinX(int minX){
@@ -46,12 +45,16 @@ public class LogNormalDistribution { //Note that this class needs more work, wil
         return sigma;
     }
     public static int generateRandomX(LogNormalDistribution x) {
-        int randomX;
+        int max = x.getMaxX();
+        int min = x.getMinX();
+        double sigma = x.getSigma();
+        double mu = x.getMu();
+        double xValue;
         do {
-            double gaussianValue = random.nextGaussian() * sigma + mu;
-            randomX = (int)Math.exp(mu + sigma * gaussianValue);
-        } while (randomX < minX || randomX > maxX);
-
-        return randomX;
+            Random random = new Random();
+            double normalRandomValue = random.nextGaussian();
+            xValue = Math.exp(mu + sigma * normalRandomValue);
+        } while (xValue < min || xValue > max);
+        return (int) Math.round(xValue);
     }
 }
