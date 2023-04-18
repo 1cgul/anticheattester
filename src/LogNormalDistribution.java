@@ -2,10 +2,10 @@ import java.util.Random;
 
 public class LogNormalDistribution { //Note that this class needs more work, will update soon
 
-    private int minX;
-    private int maxX;
-    private double mu;
-    private double sigma;
+    private static int minX;
+    private static int maxX;
+    private static double mu;
+    private static double sigma;
 
     public LogNormalDistribution(){
         minX = 180;
@@ -44,17 +44,32 @@ public class LogNormalDistribution { //Note that this class needs more work, wil
     public double getSigma(){
         return sigma;
     }
-    public static int generateRandomX(LogNormalDistribution x) {
-        int max = x.getMaxX();
-        int min = x.getMinX();
-        double sigma = x.getSigma();
-        double mu = x.getMu();
+    public int generateRandomX(){
         double xValue;
         do {
             Random random = new Random();
             double normalRandomValue = random.nextGaussian();
             xValue = Math.exp(mu + sigma * normalRandomValue);
-        } while (xValue < min || xValue > max);
+        } while (xValue < minX || xValue > maxX);
         return (int) Math.round(xValue);
+    }
+    public static int generateRandomX(LogNormalDistribution x) {
+        double xValue;
+        do {
+            Random random = new Random();
+            double normalRandomValue = random.nextGaussian();
+            xValue = Math.exp(x.getMu() + x.getSigma() * normalRandomValue);
+        } while (xValue < x.getMinX() || xValue > x.getMaxX());
+        return (int) Math.round(xValue);
+    }
+
+    public static int onLoopTimer(){ //These numbers seem to work well as of now
+        LogNormalDistribution x = new LogNormalDistribution(1000, 7000, 1500, .4);
+        return generateRandomX(x);
+    }
+
+    public static int chopWoodTimer(){ //These numbers need testing
+        LogNormalDistribution x = new LogNormalDistribution(600, 7000, 775, .35);
+        return generateRandomX(x);
     }
 }

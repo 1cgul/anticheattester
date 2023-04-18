@@ -41,7 +41,8 @@ public class OaknBank extends Script {
     private int levelsGained;
 
     private int oakLogsCount;
-    LogNormalDistribution onLoopTimer = new LogNormalDistribution(1000, 7000, 1500, .4);
+    LogNormalDistribution variable = new LogNormalDistribution();
+
 
     public void onMessage(Message m) {
         if (m.getMessage().contains("You get some oak logs."))
@@ -129,16 +130,14 @@ public class OaknBank extends Script {
             bankLogs();
             underAttack();
         }
-        int tempName = LogNormalDistribution.generateRandomX(onLoopTimer);
-        log(tempName);
-        return tempName;
+        return LogNormalDistribution.onLoopTimer();
     }
 
     private void chopOaks() throws InterruptedException {
         RS2Object oakTree = (RS2Object)getObjects().closest(this.oakArea, new String[] { "Oak" });
         if (readyToCut() && oakTree != null && oakTree.interact(new String[] { "Chop down" })) {
             log("Chopping Oak!");
-            sleep(random(750, 800));
+            sleep(LogNormalDistribution.chopWoodTimer());
             getMouse().moveOutsideScreen();
             (new ConditionalSleep(5500) {
                 public boolean condition() {
@@ -155,7 +154,7 @@ public class OaknBank extends Script {
         if (getInventory().isFull() && !myPlayer().isAnimating() && !Banks.DRAYNOR.contains((Entity)myPlayer())) {
             log("Walking to Bank!");
             getWalking().webWalk(new Area[] { Banks.DRAYNOR });
-            (new ConditionalSleep(2500) {
+            (new ConditionalSleep(variable.generateRandomX()) {
                 public boolean condition() {
                     return Banks.DRAYNOR.contains((Entity)OaknBank.this.myPlayer());
                 }
@@ -167,7 +166,7 @@ public class OaknBank extends Script {
             getBank().depositAll(new String[] { "Oak logs" });
         } else if (!getInventory().contains(new String[] { "Oak logs" })) {
             getBank().close();
-        }
+        } //do something else later with these if statements
     }
 
     private void underAttack() {
@@ -184,14 +183,4 @@ public class OaknBank extends Script {
     private boolean readyToCut() {
         return (!myPlayer().isAnimating() && !myPlayer().isUnderAttack() && this.oakArea.contains((Entity)myPlayer()));
     }
-    //this was just used for testing but im going to leave this here just in case i need to use this again
-    /*private int genRandX(int min, int max, double sigma, double mu){
-        double xValue;
-        do {
-            Random random = new Random();
-            double normalRandomValue = random.nextGaussian();
-            xValue = Math.exp(mu + sigma * normalRandomValue);
-        } while (xValue < min || xValue > max);
-        return (int) Math.round(xValue);
-    }*/
 }
